@@ -2,7 +2,7 @@ package com.thiagoh.projecteuler.p411;
 
 import java.util.List;
 
-public class Node {
+public class Node implements Comparable<Node> {
 
 	List<Node> nexts;
 	List<Node> greatestDistanceFrom0x0;
@@ -37,6 +37,27 @@ public class Node {
 		if (y != other.y)
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Node o) {
+		int v = 0;
+		if (o.x > x) {
+			v = 1;
+		} else if (o.x == x) {
+			if (o.y > y) {
+				v = 1;
+			} else if (o.y == y) {
+				v = 0;
+			} else {
+				v = -1;
+			}
+
+		} else {
+			v = -1;
+		}
+
+		return v * -1;
 	}
 
 }

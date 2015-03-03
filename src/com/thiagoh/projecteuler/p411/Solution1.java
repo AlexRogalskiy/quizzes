@@ -57,7 +57,7 @@ public class Solution1 {
 
 			mod = bi.longValue();
 
-			if (pow.longValue() > n) {
+			if (pow.compareTo(nbi) == 1) {
 				xBoundary = i;
 				xValue = bi;
 			}
@@ -103,7 +103,7 @@ public class Solution1 {
 
 			mod = bi.longValue();
 
-			if (pow.longValue() > n) {
+			if (pow.compareTo(nbi) == 1) {
 				yBoundary = i;
 				yValue = bi;
 			}
@@ -181,6 +181,15 @@ public class Solution1 {
 				if (node.equals(next) || next.x < node.x || next.y < node.y) {
 					continue l1;
 				}
+				
+				if (node.nexts.size() > 1) {
+
+					Node last = node.nexts.get(node.nexts.size() - 1);
+
+					if (next.x > last.x && next.y > last.y) {
+						continue l1;
+					}
+				}
 
 				node.nexts.add(next);
 			}
@@ -202,7 +211,6 @@ public class Solution1 {
 			path.addAll(getGreaterPathFrom(next));
 
 			paths.add(path);
-			break;
 		}
 
 		return paths;
@@ -257,7 +265,6 @@ public class Solution1 {
 					S = path.size();
 				}
 			}
-			break;
 		}
 
 		if (DEBUG) {
@@ -284,8 +291,10 @@ public class Solution1 {
 
 		if (true)
 			return;
-
-		System.out.println(new Solution1().S(800000));
+		
+		if (false) {
+			
+		}
 
 		// SUM S(k5) for 1 <= k <= 30.
 		long sum = 0;
@@ -293,9 +302,11 @@ public class Solution1 {
 		for (int k = 1; k <= 30; k++) {
 
 			long k5 = (long) Math.pow(k, 5);
+			int s = new Solution1().S(k5);
 
-			System.out.println("k " + k + " k5 " + k5);
-			sum += new Solution1().S(k5);
+			sum += s;
+
+			System.out.println("k " + k + " k5 " + k5 + " S(" + k5 + ") = " + s);
 		}
 
 		System.out.println(sum);

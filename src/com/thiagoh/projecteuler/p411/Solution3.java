@@ -2,6 +2,7 @@ package com.thiagoh.projecteuler.p411;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -11,106 +12,94 @@ public class Solution3 {
 
 	private static final boolean DEBUG = false;
 
-	static final BigInteger one = BigInteger.valueOf(1L);
-	static final BigInteger two = BigInteger.valueOf(2L);
-	static final BigInteger three = BigInteger.valueOf(3L);
-
 	Node[] points;
 
-	private long xBoundary = 0;
-	private BigInteger xValue = null;
+	private long n;
+	private BigInteger nbi;
 
-	private long yBoundary = 0;
-	private BigInteger yValue = null;
-
-	private long getX(long i, long n) {
-
-		long mod = 0;
-		BigInteger nbi = BigInteger.valueOf(n);
-
-		if (xBoundary == 0) {
-
-			BigInteger pow = two.pow((int) i);
-			BigInteger bi = pow.mod(nbi);
-
-			mod = bi.longValue();
-
-			if (pow.longValue() > n) {
-				xBoundary = i;
-				xValue = bi;
-			}
-
-		} else {
-
-			BigInteger bi = two.pow((int) (i - xBoundary)).multiply(xValue).mod(nbi);
-			mod = bi.longValue();
-
-			xBoundary = i;
-			xValue = bi;
-		}
-
-		return mod;
+	public Solution3(long n) {
+		this.n = n;
+		this.nbi = BigInteger.valueOf(n);
 	}
 
-	private long getY(long i, long n) {
+	private void fill() {
 
-		long mod = 0;
-		BigInteger nbi = BigInteger.valueOf(n);
+		final List<Node> list = Collections.synchronizedList(new ArrayList<Node>());
+		List<Thread> threads = new ArrayList<Thread>();
 
-		if (yBoundary == 0) {
+		int thread = 0;
+		final double threadCount = 10;
+		final long space = (long) ((2L * n) / threadCount);
 
-			BigInteger pow = three.pow((int) i);
-			BigInteger bi = pow.mod(nbi);
+		for (; thread < threadCount + 1; thread++) {
 
-			mod = bi.longValue();
+			final int threadFinal = thread;
+			final ModPowCalculator calc = new ModPowCalculator(n);
 
-			if (pow.longValue() > n) {
-				yBoundary = i;
-				yValue = bi;
-			}
+			Thread threadInstance = new Thread(new Runnable() {
 
-		} else {
+				@Override
+				public void run() {
 
-			BigInteger bi = three.pow((int) (i - yBoundary)).multiply(yValue).mod(nbi);
-			mod = bi.longValue();
+					List<Node> threadlist = new ArrayList<Node>();
 
-			yBoundary = i;
-			yValue = bi;
+					for (long j = 0; j < space; j++) {
+
+						long i = (threadFinal * space) + j;
+
+						if (i > 2 * n) {
+							break;
+						}
+
+						long x = calc.getX(i);
+
+						if (x > n) {
+							continue;
+						}
+
+						long y = calc.getY(i);
+
+						if (y > n) {
+							continue;
+						}
+
+						if (x == 0 && y == 0) {
+							continue;
+						}
+
+						Node node = new Node((int) x, (int) y);
+
+						if (!threadlist.contains(node)) {
+							threadlist.add(node);
+						}
+					}
+
+					synchronized (list) {
+						for (Node node : threadlist) {
+							if (!list.contains(node)) {
+								list.add(node);
+							}
+						}
+					}
+				}
+			});
+
+			threadInstance.start();
+			threads.add(threadInstance);
 		}
 
-		return mod;
-	}
+		for (Thread t : threads) {
+			try {
 
-	private Node[] fill(long n) {
+				t.join();
 
-		List<Node> list = new ArrayList<Node>();
-
-		for (long i = 0; i <= 2 * n; i++) {
-
-			long x = getX(i, n);
-
-			if (x > n) {
-				continue;
-			}
-
-			long y = getY(i, n);
-
-			if (y > n) {
-				continue;
-			}
-
-			if (x == 0 && y == 0) {
-				continue;
-			}
-
-			Node node = new Node((int) x, (int) y);
-
-			if (!list.contains(node)) {
-				list.add(node);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
 			}
 		}
 
-		return list.toArray(new Node[list.size()]);
+		points = list.toArray(new Node[list.size()]);
+		Arrays.sort(points);
 	}
 
 	private List<Node> nexts(Node node) {
@@ -125,6 +114,15 @@ public class Solution3 {
 
 				if (node.equals(next) || next.x < node.x || next.y < node.y) {
 					continue l1;
+				}
+
+				if (node.nexts.size() > 1) {
+
+					Node last = node.nexts.get(node.nexts.size() - 1);
+
+					if (next.x > last.x && next.y > last.y) {
+						continue l1;
+					}
 				}
 
 				node.nexts.add(next);
@@ -178,16 +176,16 @@ public class Solution3 {
 		return current.greatestDistanceToNxN;
 	}
 
-	int S(long n) {
-		return SPath(n).size();
+	int S() {
+		return SPath().size();
 	}
 
-	List<Node> SPath(long n) {
+	List<Node> SPath() {
 
 		int S = 0;
 		List<Node> gpath = new ArrayList<Node>();
 
-		points = fill(n);
+		fill();
 
 		for (int i = 0; i < points.length; i++) {
 
@@ -202,6 +200,7 @@ public class Solution3 {
 					S = path.size();
 				}
 			}
+
 			break;
 		}
 
@@ -213,6 +212,25 @@ public class Solution3 {
 	}
 
 	public static void main(String[] args) {
+
+		if (false) {
+
+			long t1 = System.currentTimeMillis();
+
+			System.out.println(new Solution3(22).S());
+			System.out.println(new Solution3(123).S());
+			System.out.println(new Solution3(10000).S());
+			System.out.println(new Solution3(100000).S());
+			System.out.println(new Solution3(200000).S());
+			System.out.println(new Solution3(400000).S());
+
+			long t2 = System.currentTimeMillis();
+
+			System.out.println("Costs " + (t2 - t1) + "ms");
+
+			if (true)
+				return;
+		}
 
 		// SUM S(k5) for 1 <= k <= 30.
 		long sum = 0;
@@ -230,7 +248,7 @@ public class Solution3 {
 				public void run() {
 
 					long k5 = (long) Math.pow(k, 5);
-					int s = new Solution3().S(k5);
+					int s = new Solution3(k5).S();
 
 					map.put(k5, s);
 
@@ -254,4 +272,82 @@ public class Solution3 {
 
 		System.out.println(sum);
 	}
+}
+
+class ModPowCalculator {
+
+	private long n;
+	private BigInteger nbi;
+
+	public ModPowCalculator(long n) {
+		this.n = n;
+		this.nbi = BigInteger.valueOf(n);
+	}
+
+	static final BigInteger one = BigInteger.valueOf(1L);
+	static final BigInteger two = BigInteger.valueOf(2L);
+	static final BigInteger three = BigInteger.valueOf(3L);
+
+	private long xBoundary = 0;
+	private BigInteger xValue = null;
+
+	private long yBoundary = 0;
+	private BigInteger yValue = null;
+
+	long getX(long i) {
+
+		long mod = 0;
+
+		if (xBoundary == 0) {
+
+			BigInteger pow = two.pow((int) i);
+			BigInteger bi = pow.mod(nbi);
+
+			mod = bi.longValue();
+
+			if (pow.compareTo(nbi) == 1) {
+				xBoundary = i;
+				xValue = bi;
+			}
+
+		} else {
+
+			BigInteger bi = two.pow((int) (i - xBoundary)).multiply(xValue).mod(nbi);
+			mod = bi.longValue();
+
+			xBoundary = i;
+			xValue = bi;
+		}
+
+		return mod;
+	}
+
+	long getY(long i) {
+
+		long mod = 0;
+
+		if (yBoundary == 0) {
+
+			BigInteger pow = three.pow((int) i);
+			BigInteger bi = pow.mod(nbi);
+
+			mod = bi.longValue();
+
+			if (pow.compareTo(nbi) == 1) {
+				yBoundary = i;
+				yValue = bi;
+			}
+
+		} else {
+
+			BigInteger bi = three.pow((int) (i - yBoundary)).multiply(yValue).mod(nbi);
+			mod = bi.longValue();
+
+			yBoundary = i;
+			yValue = bi;
+		}
+
+		return mod;
+	}
+
 }
