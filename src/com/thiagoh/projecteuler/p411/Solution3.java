@@ -1,7 +1,5 @@
 package com.thiagoh.projecteuler.p411;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,35 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JFrame;
-
 public class Solution3 {
 
 	private static final boolean DEBUG = false;
-
-	static final int INTERVAL = 50;
-	Map<Long, BigInteger> _2pow = new HashMap<Long, BigInteger>();
-	static Map<Long, BigInteger> _3pow = new HashMap<Long, BigInteger>();
 
 	static final BigInteger one = BigInteger.valueOf(1L);
 	static final BigInteger two = BigInteger.valueOf(2L);
 	static final BigInteger three = BigInteger.valueOf(3L);
 
 	Node[] points;
-
-	void draw(int n) {
-
-		JFrame testFrame = new JFrame();
-
-		testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		MatrixComponent comp = new MatrixComponent(n, 800);
-
-		testFrame.setPreferredSize(new Dimension(1000, 1000));
-		testFrame.getContentPane().add(comp, BorderLayout.CENTER);
-		testFrame.pack();
-		testFrame.setVisible(true);
-	}
 
 	private long xBoundary = 0;
 	private BigInteger xValue = null;
