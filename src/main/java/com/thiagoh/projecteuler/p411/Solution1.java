@@ -181,7 +181,7 @@ public class Solution1 {
 				if (node.equals(next) || next.x < node.x || next.y < node.y) {
 					continue l1;
 				}
-				
+
 				if (node.nexts.size() > 1) {
 
 					Node last = node.nexts.get(node.nexts.size() - 1);
@@ -276,24 +276,19 @@ public class Solution1 {
 
 	public static void main(String[] args) {
 
-		long t1 = System.currentTimeMillis();
+		if (true) {
 
-		System.out.println(new Solution1().S(22));
-		System.out.println(new Solution1().S(123));
-		System.out.println(new Solution1().S(10000));
-		System.out.println(new Solution1().S(100000));
-		System.out.println(new Solution1().S(200000));
-		System.out.println(new Solution1().S(400000));
+			long t1 = System.currentTimeMillis();
 
-		long t2 = System.currentTimeMillis();
+			System.out.println(new Solution1().SPath(22));
+			System.out.println(new Solution1().SPath(123));
+			System.out.println(new Solution1().SPath(10000));
 
-		System.out.println("Costs " + (t2 - t1) + "ms");
+			long t2 = System.currentTimeMillis();
 
-		if (true)
+			System.out.println("Costs " + (t2 - t1) + "ms");
+
 			return;
-		
-		if (false) {
-			
 		}
 
 		// SUM S(k5) for 1 <= k <= 30.

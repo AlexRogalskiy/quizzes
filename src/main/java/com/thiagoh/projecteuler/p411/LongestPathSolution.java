@@ -12,9 +12,6 @@ public class LongestPathSolution {
 
 	private static final boolean DEBUG = true;
 
-	private static boolean loaded = false;
-	private static Object monitor = new Object();
-
 	private List<Node> points;
 
 	private long n;
@@ -23,46 +20,26 @@ public class LongestPathSolution {
 		this.n = n;
 	}
 
-	void loadFiles() throws IOException {
+	void fill() throws IOException {
 
-		boolean load = false;
+		File pointsJoinedSorted = new File("files-points-joined-sorted/joined-sorted-" + n);
 
-		if (!loaded) {
-
-			synchronized (monitor) {
-
-				if (!loaded) {
-					load = true;
-				}
-			}
-
-			if (load) {
-
-				File pointsJoinedSorted = new File("files-points-joined-sorted/joined-sorted-" + n);
-
-				points = new ArrayList<Node>();
-				
-				List<String> readLines = IOUtils.readLines(new FileInputStream(pointsJoinedSorted));
-
-				for (String line : readLines) {
-
-					String[] split = line.split(",");
-
-					Node node = new Node(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
-
-					points.add(node);
-				}
-
-				synchronized (monitor) {
-					loaded = true;
-				}
-			}
+		if (!pointsJoinedSorted.exists()) {
+			throw new RuntimeException("There are no files for n " + n);
 		}
-	}
 
-	private void fill() throws IOException {
+		points = new ArrayList<Node>();
 
-		loadFiles();
+		List<String> readLines = IOUtils.readLines(new FileInputStream(pointsJoinedSorted));
+
+		for (String line : readLines) {
+
+			String[] split = line.split(",");
+
+			Node node = new Node(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+
+			points.add(node);
+		}
 	}
 
 	private List<Node> nexts(Node node) {
@@ -83,7 +60,7 @@ public class LongestPathSolution {
 
 					Node last = node.nexts.get(node.nexts.size() - 1);
 
-					if (next.x > last.x && next.y > last.y) {
+					if (next.x >= last.x && next.y >= last.y) {
 						continue l1;
 					}
 				}
@@ -105,9 +82,7 @@ public class LongestPathSolution {
 			List<Node> path = new ArrayList<Node>();
 
 			path.add(current);
-			path.add(next);
-
-			path = getGreaterPathFrom(next, path);
+			path.addAll(getGreaterPathFrom(next));
 
 			paths.add(path);
 		}
@@ -115,33 +90,29 @@ public class LongestPathSolution {
 		return paths;
 	}
 
-	private List<Node> getGreaterPathFrom(Node current, List<Node> pathToHere) {
+	private List<Node> getGreaterPathFrom(Node node) {
 
-		if (current.greatestDistanceFrom0x0 == null) {
-			current.greatestDistanceFrom0x0 = new ArrayList<Node>(pathToHere);
-		}
+		if (node.greatestDistanceToNxN == null) {
 
-		if (current.greatestDistanceFrom0x0.size() > pathToHere.size()) {
-			return current.greatestDistanceFrom0x0;
-		}
+			List<Node> greater = new ArrayList<Node>();
 
-		List<Node> greater = pathToHere;
+			for (Node next : nexts(node)) {
 
-		for (Node next : nexts(current)) {
+				if (!next.equals(node) && next.x >= node.x && next.y >= node.y) {
 
-			if (!next.equals(current) && next.x >= current.x && next.y >= current.y) {
-
-				List<Node> tmp = getGreaterPathFrom(next, new ArrayList<Node>(pathToHere));
-
-				if (tmp.size() > greater.size()) {
-					greater = tmp;
+					List<Node> tmp = getGreaterPathFrom(next);
+					if (tmp.size() > greater.size()) {
+						greater = tmp;
+					}
 				}
 			}
+
+			node.greatestDistanceToNxN = new ArrayList<Node>();
+			node.greatestDistanceToNxN.add(node);
+			node.greatestDistanceToNxN.addAll(greater);
 		}
 
-		current.greatestDistanceFrom0x0 = greater;
-
-		return current.greatestDistanceFrom0x0;
+		return node.greatestDistanceToNxN;
 	}
 
 	int S() throws IOException {
@@ -179,7 +150,7 @@ public class LongestPathSolution {
 
 	public static void main(String[] args) {
 
-		if (true) {
+		if (false) {
 
 			try {
 
