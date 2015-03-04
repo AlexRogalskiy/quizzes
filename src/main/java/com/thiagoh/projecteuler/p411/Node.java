@@ -17,7 +17,7 @@ public class Node implements Comparable<Node> {
 
 	@Override
 	public String toString() {
-		return "[" + x + "," + y + "]";
+		return x + "," + y;
 	}
 
 	@Override
@@ -59,5 +59,6 @@ public class Node implements Comparable<Node> {
 
 		return v * -1;
 	}
-
+	
+	
 }

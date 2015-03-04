@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
 
 public class Solution4 {
 
@@ -49,9 +50,22 @@ public class Solution4 {
 
 			if (load) {
 
-				File files = new File("files/");
+				File files = new File("files-modpow/");
 
-				Collection<File> listFiles = FileUtils.listFiles(files, new String[] { "txt" }, true);
+				Collection<File> listFiles = FileUtils.listFiles(files, new IOFileFilter() {
+
+					@Override
+					public boolean accept(File file) {
+
+						return file.getName().contains("modpow-" + n + "-");
+					}
+
+					@Override
+					public boolean accept(File dir, String name) {
+
+						return name.contains("modpow-" + n + "-");
+					}
+				}, null);
 
 				for (File file : listFiles) {
 
@@ -129,15 +143,8 @@ public class Solution4 {
 
 			Map<Long, Node> map = getForI(i);
 			Node node = map.get(i);
-			
-			BigInteger x = BigInteger.valueOf(2L).modPow(BigInteger.valueOf(i), BigInteger.valueOf(n));
-			BigInteger y = BigInteger.valueOf(3L).modPow(BigInteger.valueOf(i), BigInteger.valueOf(n));
 
-			if (node.x > n || node.y > n ) {
-				continue;
-			}
-			
-			if (node.x == 0 && node.y == 0){
+			if (node.x > n || node.y > n || (node.x == 0 && node.y == 0)) {
 				continue;
 			}
 
@@ -260,15 +267,11 @@ public class Solution4 {
 
 		try {
 
-			System.out.println(new Solution4(22).S());
-
-			if (true)
-				return;
-
 			if (false) {
 
 				long t1 = System.currentTimeMillis();
 
+				System.out.println(new Solution4(22).S());
 				System.out.println(new Solution4(123).S());
 				System.out.println(new Solution4(10000).S());
 				System.out.println(new Solution4(100000).S());
@@ -311,7 +314,6 @@ public class Solution4 {
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-
 					}
 				});
 
