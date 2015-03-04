@@ -3,6 +3,7 @@ package com.thiagoh.projecteuler.p411;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,15 @@ public class FillFile {
 
 	private final Object writeMonitor = new Object();
 	private long n;
+	private BigInteger nbi;
+
+	static final BigInteger one = BigInteger.valueOf(1L);
+	static final BigInteger two = BigInteger.valueOf(2L);
+	static final BigInteger three = BigInteger.valueOf(3L);
 
 	public FillFile(long n) {
 		this.n = n;
+		this.nbi = BigInteger.valueOf(n);
 	}
 
 	private void fill() throws IOException {
@@ -25,19 +32,17 @@ public class FillFile {
 		int rotation = 1;
 		File file = getFile(rotation, true);
 
-		final ModPowCalculator calc = new ModPowCalculator(n);
-
 		List<String> lines = new ArrayList<String>();
 
 		for (long i = 0; i <= 2L * n; i++) {
 
-			long x = calc.getX(i);
+			long x = two.modPow(BigInteger.valueOf(i), nbi).longValue();
 
 			if (x > n) {
 				continue;
 			}
 
-			long y = calc.getY(i);
+			long y = three.modPow(BigInteger.valueOf(i), nbi).longValue();
 
 			if (y > n) {
 				continue;
@@ -80,7 +85,7 @@ public class FillFile {
 
 		File file = new File("files/modpow-" + rotation + ".txt");
 
-		if (recreate){
+		if (recreate) {
 			FileUtils.deleteQuietly(file);
 			FileUtils.touch(file);
 		}
