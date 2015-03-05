@@ -1,18 +1,27 @@
 package com.thiagoh.projecteuler.p411;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.swing.JFrame;
 
 import org.apache.commons.io.IOUtils;
 
 public class LongestPathSolution {
 
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
-	private List<Node> points;
+	List<Node> points;
 
 	private long n;
 
@@ -20,7 +29,68 @@ public class LongestPathSolution {
 		this.n = n;
 	}
 
-	void fill() throws IOException {
+	int calc(File pointsJoinedSorted) throws IOException {
+
+		points = new ArrayList<Node>();
+
+		List<String> lines = IOUtils.readLines(new FileInputStream(pointsJoinedSorted));
+
+		for (String line : lines) {
+			
+			String[] split = line.split(",");
+
+			points.add(new Node(Integer.valueOf(split[0]), Integer.valueOf(split[1])));
+		}
+
+		for (Node node : points) {
+
+			int ix = 0;
+			l1: for (int i = 0; i < points.size(); i++) {
+				if (node.equals(points.get(i))) {
+					ix = i;
+					break l1;
+				}
+			}
+
+			l2: for (; ix >= 0; ix--) {
+
+				Node previousToAdd = points.get(ix);
+
+				if (node.equals(previousToAdd) || previousToAdd.x > node.x || previousToAdd.y > node.y) {
+					continue l2;
+				}
+
+				node.previous.add(previousToAdd);
+			}
+		}
+
+		for (Node node : points) {
+			getPathsTo(node);
+		}
+
+		int len = 0;
+		for (Node node : points) {
+			len = Math.max(node.maxLength, len);
+		}
+
+		return len;
+	}
+
+	void draw() {
+
+		JFrame testFrame = new JFrame();
+
+		testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		MatrixComponent comp = new MatrixComponent(n, 1200);
+
+		testFrame.setPreferredSize(new Dimension(1200, 1200));
+		testFrame.getContentPane().add(comp, BorderLayout.CENTER);
+		testFrame.pack();
+		testFrame.setVisible(true);
+	}
+
+	int S() throws IOException {
 
 		File pointsJoinedSorted = new File("files-points-joined-sorted/joined-sorted-" + n);
 
@@ -28,124 +98,51 @@ public class LongestPathSolution {
 			throw new RuntimeException("There are no files for n " + n);
 		}
 
-		points = new ArrayList<Node>();
+		int s = calc(pointsJoinedSorted);
 
-		List<String> readLines = IOUtils.readLines(new FileInputStream(pointsJoinedSorted));
+		System.out.println("S(" + n + ") = " + s);
 
-		for (String line : readLines) {
-
-			String[] split = line.split(",");
-
-			Node node = new Node(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
-
-			points.add(node);
-		}
+		return s;
 	}
 
-	private List<Node> nexts(Node node) {
+	private void getPathsTo(Node to) {
 
-		if (node.nexts == null) {
-
-			node.nexts = new ArrayList<Node>();
-
-			l1: for (int j = 0; j < points.size(); j++) {
-
-				Node next = points.get(j);
-
-				if (node.equals(next) || next.x < node.x || next.y < node.y) {
-					continue l1;
-				}
-
-				if (node.nexts.size() > 1) {
-
-					Node last = node.nexts.get(node.nexts.size() - 1);
-
-					if (next.x >= last.x && next.y >= last.y) {
-						continue l1;
-					}
-				}
-
-				node.nexts.add(next);
-			}
+		if (to.maxLength != null) {
+			return;
 		}
 
-		return node.nexts;
-	}
+		Iterator<Node> iterator = to.previous.iterator();
+		int maxLength = 1;
 
-	private List<List<Node>> getPathsFrom(Node current) {
+		while (iterator.hasNext()) {
 
-		List<List<Node>> paths = new ArrayList<List<Node>>();
-		List<Node> nexts = nexts(current);
+			Node prev = (Node) iterator.next();
 
-		for (Node next : nexts) {
+			Integer length = to.length.get(prev);
 
-			List<Node> path = new ArrayList<Node>();
-
-			path.add(current);
-			path.addAll(getGreaterPathFrom(next));
-
-			paths.add(path);
-		}
-
-		return paths;
-	}
-
-	private List<Node> getGreaterPathFrom(Node node) {
-
-		if (node.greatestDistanceToNxN == null) {
-
-			List<Node> greater = new ArrayList<Node>();
-
-			for (Node next : nexts(node)) {
-
-				if (!next.equals(node) && next.x >= node.x && next.y >= node.y) {
-
-					List<Node> tmp = getGreaterPathFrom(next);
-					if (tmp.size() > greater.size()) {
-						greater = tmp;
-					}
-				}
+			if (length == null) {
+				length = prev.maxLength;
+				to.length.put(prev, length);
 			}
 
-			node.greatestDistanceToNxN = new ArrayList<Node>();
-			node.greatestDistanceToNxN.add(node);
-			node.greatestDistanceToNxN.addAll(greater);
+			length = length + 1;
+
+			to.length.put(prev, length);
+
+			getPathsTo(prev);
 		}
 
-		return node.greatestDistanceToNxN;
-	}
+		Set<Entry<Node, Integer>> entrySet = to.length.entrySet();
 
-	int S() throws IOException {
-		return SPath().size();
-	}
-
-	List<Node> SPath() throws IOException {
-
-		int S = 0;
-		List<Node> gpath = new ArrayList<Node>();
-
-		fill();
-
-		for (int i = 0; i < points.size(); i++) {
-
-			Node current = points.get(i);
-
-			List<List<Node>> paths = getPathsFrom(current);
-
-			for (List<Node> path : paths) {
-
-				if (S < path.size()) {
-					gpath = path;
-					S = path.size();
-				}
-			}
+		for (Entry<Node, Integer> entry : entrySet) {
+			maxLength = Math.max(maxLength, entry.getValue());
 		}
 
-		if (DEBUG) {
-			System.out.println("S: " + gpath.size() + " " + gpath);
-		}
-
-		return gpath;
+		to.length.clear();
+		to.length = null;
+		to.previous.clear();
+		to.previous = null;
+		to.maxLength = maxLength;
 	}
 
 	public static void main(String[] args) {
@@ -156,6 +153,10 @@ public class LongestPathSolution {
 
 				System.out.println(new LongestPathSolution(22).S());
 				System.out.println(new LongestPathSolution(123).S());
+				System.out.println(new LongestPathSolution(500).S());
+				System.out.println(new LongestPathSolution(1000).S());
+				System.out.println(new LongestPathSolution(1500).S());
+				System.out.println(new LongestPathSolution(2000).S());
 				System.out.println(new LongestPathSolution(10000).S());
 
 			} catch (IOException e) {
@@ -188,4 +189,49 @@ public class LongestPathSolution {
 
 		System.out.println("Sum is: " + sum);
 	}
+}
+
+class Edge {
+
+	Node from;
+	Node to;
+	int length;
+
+	public Edge(Node from, Node to, int length) {
+		this.from = from;
+		this.to = to;
+		this.length = length;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((from == null) ? 0 : from.hashCode());
+		result = prime * result + ((to == null) ? 0 : to.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Edge other = (Edge) obj;
+		if (from == null) {
+			if (other.from != null)
+				return false;
+		} else if (!from.equals(other.from))
+			return false;
+		if (to == null) {
+			if (other.to != null)
+				return false;
+		} else if (!to.equals(other.to))
+			return false;
+		return true;
+	}
+
 }

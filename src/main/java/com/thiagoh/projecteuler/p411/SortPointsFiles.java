@@ -62,6 +62,10 @@ public class SortPointsFiles {
 
 				new SortPointsFiles(22).sort();
 				new SortPointsFiles(123).sort();
+				new SortPointsFiles(500).sort();
+				new SortPointsFiles(1000).sort();
+				new SortPointsFiles(1500).sort();
+				new SortPointsFiles(2000).sort();
 				new SortPointsFiles(10000).sort();
 
 				return;

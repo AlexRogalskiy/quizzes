@@ -1,18 +1,23 @@
 package com.thiagoh.projecteuler.p411;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Node implements Comparable<Node> {
 
-	List<Node> nexts;
-	List<Node> greatestDistanceFrom0x0;
-	List<Node> greatestDistanceToNxN;
+	Integer maxLength;
+	Map<Node, Integer> length;
+	List<Node> previous;
 	int x;
 	int y;
 
 	public Node(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.length = new HashMap<Node, Integer>();
+		this.previous = new ArrayList<Node>();
 	}
 
 	@Override
@@ -59,6 +64,5 @@ public class Node implements Comparable<Node> {
 
 		return v * -1;
 	}
-	
-	
+
 }

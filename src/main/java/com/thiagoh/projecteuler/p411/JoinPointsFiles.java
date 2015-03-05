@@ -60,6 +60,10 @@ public class JoinPointsFiles {
 
 				new JoinPointsFiles(22).join();
 				new JoinPointsFiles(123).join();
+				new JoinPointsFiles(500).join();
+				new JoinPointsFiles(1000).join();
+				new JoinPointsFiles(1500).join();
+				new JoinPointsFiles(2000).join();
 				new JoinPointsFiles(10000).join();
 
 				return;

@@ -171,6 +171,10 @@ public class FillFileModPow {
 
 				new FillFileModPow(22).fill();
 				new FillFileModPow(123).fill();
+				new FillFileModPow(500).fill();
+				new FillFileModPow(1000).fill();
+				new FillFileModPow(1500).fill();
+				new FillFileModPow(2000).fill();
 				new FillFileModPow(10000).fill();
 
 				return;

@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -15,7 +16,7 @@ import javax.swing.JPanel;
 public class MatrixComponent extends JPanel {
 
 	long n;
-	Solution1 s;
+	LongestPathSolution s;
 	double SPACE;
 	int RADIUS;
 
@@ -24,7 +25,7 @@ public class MatrixComponent extends JPanel {
 		this.n = n;
 		this.SPACE = width / n;
 		this.RADIUS = 4;
-		this.s = new Solution1();
+		this.s = new LongestPathSolution(n);
 		this.setPreferredSize(new Dimension(width, width));
 	}
 
@@ -43,27 +44,39 @@ public class MatrixComponent extends JPanel {
 			g2.draw(new Line2D.Double(col * SPACE, 0, col * SPACE, n * SPACE));
 		}
 
-		List<Node> path = s.SPath(n);
+		try {
 
-		for (Node node : s.points) {
-			paintNode(g2, node);
-		}
+			s.S();
 
-		Node first = new Node(0, 0);
-		Node last = new Node((int) n, (int) n);
-
-		paintLine(g2, first, path.get(0));
-		paintLine(g2, path.get(path.size() - 1), last);
-
-		for (int i = 0; i < path.size(); i++) {
-
-			Node node = path.get(i);
-
-			if (i > 0) {
-				paintLine(g2, path.get(i - 1), node);
+			System.out.println(s.points);
+			
+			for (Node node : s.points) {
+				paintNode(g2, node);
 			}
 
-			paintNode(g2, node);
+			if (true )return;
+			
+			List<Node> path = null;//s.SPath();
+			
+			Node first = new Node(0, 0);
+			Node last = new Node((int) n, (int) n);
+
+			paintLine(g2, first, path.get(0));
+			paintLine(g2, path.get(path.size() - 1), last);
+
+			for (int i = 0; i < path.size(); i++) {
+
+				Node node = path.get(i);
+
+				if (i > 0) {
+					paintLine(g2, path.get(i - 1), node);
+				}
+
+				paintNode(g2, node);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -85,7 +98,7 @@ public class MatrixComponent extends JPanel {
 		double x = node.x * SPACE - RADIUS;
 		double y = (n * SPACE) - (node.y * SPACE) - RADIUS;
 
-		g.setColor(Color.BLACK);
+		g.setColor(Color.red);
 		g.setBackground(Color.BLACK);
 		g.fill(new Ellipse2D.Double(x, y, RADIUS * 2, RADIUS * 2));
 	}
