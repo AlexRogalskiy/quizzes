@@ -1,6 +1,11 @@
+from audioop import reverse
+
 __author__ = 'thiago'
 
+import sys
+import bisect
 import random
+import math
 
 
 arr1 = [random.randint(1, 160) for x in range(1, random.randint(15, 300))];
@@ -20,13 +25,11 @@ for i in arrs: print(i)
 
 output = [];
 
-
 def goon():
     for i, ix in enumerate(ixs):
         if ix < len(arrs[i]):
             return True;
     return False;
-
 
 while goon():
 

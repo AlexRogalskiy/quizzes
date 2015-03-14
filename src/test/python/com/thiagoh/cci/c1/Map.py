@@ -1,12 +1,12 @@
 __author__ = 'thiago'
 
 import unittest
-
 from src.main.python.com.thiagoh.cci import Map;
 
-
 class MapTest(unittest.TestCase):
+
     def test_map(self):
+
         m = Map.Map();
         m.put("a", 123);
         m.put("b", 123);
