@@ -1,7 +1,6 @@
 __author__ = 'thiago'
 
 import bisect
-import sys
 
 arr = [x for x in range(20, 30)]
 print(arr)

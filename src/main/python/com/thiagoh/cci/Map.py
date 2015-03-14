@@ -1,9 +1,10 @@
 __author__ = 'thiago'
 
-class Map:
 
+class Map:
     def __init__(self):
         self.map = [];
+
     class Entry:
         def __init__(self, k, v):
             self.key = k;

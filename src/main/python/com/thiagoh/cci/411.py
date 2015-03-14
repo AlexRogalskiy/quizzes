@@ -3,9 +3,10 @@ __author__ = 'thiago'
 import bisect
 import sys
 
+
 class Problem():
     def solve(self):
-        #self.benchmark()
+        # self.benchmark()
         print(self.get())
 
     def benchmark(self):
@@ -15,7 +16,7 @@ class Problem():
     def get(self):
         result = 0
         for k in range(1, 30 + 1):
-            maximum_number = self.S(k**5)
+            maximum_number = self.S(k ** 5)
             result += maximum_number
             print(k, "=>", maximum_number)
         return result
@@ -45,9 +46,11 @@ class Problem():
                 subsequence[bisect.bisect_right(subsequence, n)] = n
         return len(subsequence)
 
+
 def main():
     problem = Problem()
     problem.solve()
+
 
 if __name__ == '__main__':
     sys.exit(main())
