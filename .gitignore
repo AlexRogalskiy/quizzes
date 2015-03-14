@@ -5,6 +5,8 @@
 
 .idea/
 .idea/*
+.idea/workspace.xml
+
 files-*/
 test-output/
 
@@ -63,4 +65,3 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /bin/
-.idea/workspace.xml
