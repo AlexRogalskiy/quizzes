@@ -1,5 +1,79 @@
 from math import *;
 
+def prod_east(arr, _from_line, _from_pos, _adjacency):
+	product = 1;
+	limit = _from_pos + _adjacency;
+	if (limit > len(arr[_from_line])): return product;
+
+	while _from_pos < limit:
+		product *= arr[_from_line][_from_pos]
+		_from_pos += 1;
+	return product;
+
+def prod_south(arr, _from_line, _from_pos, _adjacency):
+	product = 1;
+	verti_limit = _from_line + _adjacency;
+	# south bounds
+	if (verti_limit > len(arr)): return product;
+
+	while _from_line < verti_limit:
+		product *= arr[_from_line][_from_pos]
+		_from_line += 1;
+	return product;
+
+def prod_southeast(arr, _from_line, _from_pos, _adjacency):
+	return prod_south_east_or_west(arr, _from_line, _from_pos, _adjacency, True);
+
+def prod_southwest(arr, _from_line, _from_pos, _adjacency):
+	return prod_south_east_or_west(arr, _from_line, _from_pos, _adjacency, False);
+
+def prod_south_east_or_west(arr, _from_line, _from_pos, _adjacency, east = True):
+	product = 1;
+
+	horiz_limit = _from_pos + (_adjacency * (1 if east else -1));
+	# west|east bounds
+	if (east):
+		if (horiz_limit > len(arr[_from_line])): return product;
+	else:
+		if (horiz_limit < 0): return product;
+
+	verti_limit = _from_line + _adjacency;
+	# south bounds
+	if (verti_limit > len(arr)): return product;
+
+	while  (east and _from_pos < horiz_limit) or (not east and _from_pos > horiz_limit):
+		product *= arr[_from_line][_from_pos]
+		_from_pos += 1 if east else -1; 
+		_from_line += 1;
+
+	return product;
+
+# a = [
+# 	[1,2,3,4,5,6,7,8,9],
+# 	[1,2,3,4,5,6,7,8,9],
+# 	[1,2,3,4,5,6,7,8,9],
+# 	[1,2,3,4,5,6,7,8,9],
+# 	[1,2,3,4,5,6,7,8,9],
+# ];
+
+# print 'prod_east: (0) {0}'.format(prod_east(a, 0, 0, 4));
+# print 'prod_east: (1) {0}'.format(prod_east(a, 0, 1, 4));
+# print 'prod_east: (2) {0}'.format(prod_east(a, 0, 2, 4));
+# print 'prod_east: (3) {0}'.format(prod_east(a, 0, 3, 4));
+# print 'prod_east: (4) {0}'.format(prod_east(a, 0, 4, 4));
+# print
+# print 'prod_south: (0) {0}'.format(prod_south(a, 0, 0, 4));
+# print 'prod_south: (1) {0}'.format(prod_south(a, 0, 1, 4));
+# print 'prod_south: (2) {0}'.format(prod_south(a, 0, 2, 4));
+# print 'prod_south: (3) {0}'.format(prod_south(a, 0, 3, 4));
+# print 'prod_south: (4) {0}'.format(prod_south(a, 0, 4, 4));
+# print
+# print 'prod_southeast: {0}'.format(prod_southeast(a, 1, 1, 4));
+# print 'prod_southeast: {0} {1}'.format(prod_southeast(a, 1, 5, 4), prod_southeast(a, 1, 5, 4) == 6*7*8*9);
+# print
+# print 'prod_southwest: {0}'.format(prod_southwest(a, 1, 4, 4));
+# print 'prod_southwest: {0} {1}'.format(prod_southwest(a, 1, 8, 4), prod_southwest(a, 1, 8, 4) == 9*8*7*6);
+
 arr = [[8,2,22,97,38,15,0,40,0,75,4,5,7,78,52,12,50,77,91,8],
 [49,49,99,40,17,81,18,57,60,87,17,40,98,43,69,48,4,56,62,0],
 [81,49,31,73,55,79,14,29,93,71,40,67,53,88,30,3,49,13,36,65],
@@ -21,58 +95,13 @@ arr = [[8,2,22,97,38,15,0,40,0,75,4,5,7,78,52,12,50,77,91,8],
 [20,73,35,29,78,31,90,1,74,31,49,71,48,86,81,16,23,57,5,54],
 [1,70,54,71,83,51,54,69,16,92,33,48,61,43,52,1,89,19,67,48]];
 
+maximum = 1
 adjacency = 4
-ix_start = 0;
+for i in xrange(0, len(arr) - 1):
+	for j in xrange(0, len(arr[i]) - 1):
+		maximum = max(maximum, prod_east(arr, i, j, adjacency));
+		maximum = max(maximum, prod_southeast(arr, i, j, adjacency));
+		maximum = max(maximum, prod_south(arr, i, j, adjacency));
+		maximum = max(maximum, prod_southwest(arr, i, j, adjacency));
 
-def prod_east(arr, _from_line, _from_pos, _adjacency):
-
-	limit = _from + _adjacency;
-	if (limit >= len(arr[_from_line])):
-			return 1;
-
-	product = 1;
-	while _from < limit:
-		product *= int(arr[_from_line][_from_pos])
-		_from += 1;
-	return product;
-
-def prod_southeast(arr, _from_line, _from_pos, _adjacency):
-
-	limit = _from + _adjacency;
-	if (limit >= len(arr[_from_line])):
-			return 1;
-
-	product = 1;
-	# while _from < limit:
-	# 	product *= int(arr[_from_line][_from_pos])
-	# 	_from += 1;
-	return product;
-
-def prod_south(arr, _from_line, _from_pos, _adjacency):
-
-	# check for south bounds
-	limit = _from + _adjacency;
-	if (limit >= len(arr[_from_line])):
-			return 1;
-
-	product = 1;
-	# while _from < limit:
-	# 	product *= int(arr[_from_line][_from_pos])
-	# 	_from += 1;
-	return product;
-
-def prod_southwest(arr, _from_line, _from_pos, _adjacency):
-
-	# check for south bounds
-	# check for west bounds
-	limit = _from + _adjacency;
-	if (limit >= len(arr[_from_line])):
-			return 1;
-
-	product = 1;
-	# while _from < limit:
-	# 	product *= int(arr[_from_line][_from_pos])
-	# 	_from += 1;
-	return product;
-
-	print 'The values are a: {0}'.format(arr);
+print 'The maximum product is: {0}'.format(maximum);

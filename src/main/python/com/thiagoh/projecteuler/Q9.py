@@ -1,12 +1,6 @@
 
 from math import *;
 
-# def formula(a,b):
-# 	return pow(1000,4) - (pow(4000,2) * a * b) + (4 * pow(a,2) * pow(b,2)) - (pow(2000,2) * ( pow(a,2) + pow(b,2)))
-
-# def formula(a,b):
-# 	return pow(1000,2) - (2000 * sqrt( a*a + b*b )) - (2*a*b)
-
 def formula(a,b):
 	return (a*a) + (b*b) - pow(a + b - 1000, 2)
 
