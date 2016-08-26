@@ -65,3 +65,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /bin/
+
+project.sublime-project
+project.sublime-workspace
