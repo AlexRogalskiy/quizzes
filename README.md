@@ -1,5 +1,5 @@
-# project-euler
+# ProjectEuler
 
-ProjectEuler problems implementation
+## Project Euler questions solutions
 
-Please, don't use this project to submit your questions.
+*Please, don't use this project to submit your questions.*
