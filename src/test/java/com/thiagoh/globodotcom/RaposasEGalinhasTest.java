@@ -1,4 +1,4 @@
-package com.thiagoh.globodotcom;
+package com.thiagoh.gdotcom;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
