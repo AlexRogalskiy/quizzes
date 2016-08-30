@@ -2,25 +2,24 @@ from datetime import datetime;
 import math;
 
 t1 = datetime.now()
-results = []
+max_remainders = 0;
+result = 0;
 
-div = 7;
-while div < 1001:
+div = 999
+while div > 7:
 	remainders = [];
 	remainder = 1 % div;
 	if remainder > 0:
-		while not remainder in remainders:
+		while remainder not in remainders and remainder != 0:
 			remainders.append(remainder)
 			remainder = remainder * 10 % div;
-		results.append([len(remainders), div])
-	div += 1;
 
-# print results
+		if len(remainders) > max_remainders:
+			max_remainders = len(remainders);
+			result = div;
 
-results.sort(lambda x,y: cmp(x[0], y[0]), reverse=False)
-v = results[len(results)-1];
+	div -= 2;
 
 t2 = datetime.now()
 
-# print 'Result: ', v, ' in ', dir((t2-t1).milliseconds), 'ms'
-print 'Result: ', v, ' in ', (t2-t1).microseconds/1000, 'ms'
+print 'Result: ', [max_remainders, result], ' in ', (t2-t1).microseconds/1000, 'ms'
