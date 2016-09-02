@@ -1,0 +1,47 @@
+<style type="text/css" media="screen">
+
+.my-form .valid {
+	border-color: #00FF00;
+}
+
+.my-form .invalid {
+	border-color: #FF0000;
+}
+	
+</style>
+<form class="my-form" onsubmit="return validate()">
+	
+	<input type="text" id="input1" />
+	<input type="text" id="input2" />
+	<input type="text" id="input3" />
+
+	<button id="button1">
+		Click me!
+	</button>
+</form>
+<script>
+function id(id) {
+	return document.getElementById(id);
+}
+function isAllNumber(v) {
+	return /^[0-9]+$/.test(v);
+}
+function validate() {
+
+	var input1 = id('input1'),
+		input2 = id('input2'),
+		input3 = id('input3'),
+		arr = [input1, input2, input3];
+
+	for (var i = 0; i < arr.length; i++) {
+
+		arr[i].className = "";
+
+		if (arr[i].value.length > 0) {
+			arr[i].className = isAllNumber(arr[i].value) ? " valid" : " invalid";
+		}
+	}
+
+	return false;
+}
+</script>
