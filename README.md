@@ -1,5 +1,7 @@
-# ProjectEuler
+# Quizzes solutions 
 
-## Project Euler questions solutions
+ - Codility 
+ - Project Euler
+ - HackerRank
 
 *Please, don't use this project to submit your questions.*
