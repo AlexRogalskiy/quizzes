@@ -1,43 +1,47 @@
-module.exports = function() {
+(function() {
 
-	var Node = function Node(label) {
-		this.label = label;
-		this.nodes = [];
-	};
+	module.exports = function() {
 
-	var A = new Node('A');
+		var Node = function Node(label) {
+			this.label = label;
+			this.nodes = [];
+		};
 
-	var B = new Node('B');
-	var C = new Node('C');
-	var D = new Node('D');
+		var A = new Node('A');
 
-	A.nodes = [B, C, D];
+		var B = new Node('B');
+		var C = new Node('C');
+		var D = new Node('D');
 
-	var E = new Node('E');
-	var F = new Node('F');
-	var G = new Node('G');
+		A.nodes = [B, C, D];
 
-	B.nodes = [E, F, G];
+		var E = new Node('E');
+		var F = new Node('F');
+		var G = new Node('G');
 
-	var H = new Node('H');
-	var I = new Node('I');
+		B.nodes = [E, F, G];
 
-	C.nodes = [H, I];
+		var H = new Node('H');
+		var I = new Node('I');
 
-	var J = new Node('J');
+		C.nodes = [H, I];
 
-	D.nodes = [J];
+		var J = new Node('J');
 
-	var L = new Node('L');
-	var M = new Node('M');
-	var N = new Node('N');
+		D.nodes = [J];
 
-	H.nodes = [L, M, N];
+		var L = new Node('L');
+		var M = new Node('M');
+		var N = new Node('N');
 
-	var O = new Node('O');
-	var P = new Node('P');
+		H.nodes = [L, M, N];
 
-	L.nodes = [O, P];
+		var O = new Node('O');
+		var P = new Node('P');
 
-	return A;
-}
+		L.nodes = [O, P];
+
+		return A;
+	}
+
+}());

@@ -1,4 +1,4 @@
-(function(argument) {
+(function() {
 
 	function dfs(root, act) {
 
@@ -37,4 +37,4 @@
 
 	dfs(A, act());
 
-})();
+}());
