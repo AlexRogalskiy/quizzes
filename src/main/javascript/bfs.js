@@ -27,11 +27,11 @@
 
 		this.level = function(node) {
 			s += node.label + ',';
-		}
+		};
 
 		this.printResult = function() {
 			console.log(s);
-		}
+		};
 
 		return this;
 	}

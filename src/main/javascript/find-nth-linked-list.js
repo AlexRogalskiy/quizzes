@@ -2,7 +2,7 @@
 
 	var Node = function Node(label) {
 		this.label = label;
-		this.next;
+		this.next = undefined;
 	};
 
 	var findNthOnLinkedList = function findNthOnLinkedList(head, n) {
@@ -22,7 +22,7 @@
 		return nBackNode;
 	};
 
-	module.exports = findNthOnLinkedList
+	module.exports = findNthOnLinkedList;
 
 	var head = new Node('A');
 	var B = new Node('B');
