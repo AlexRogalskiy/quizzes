@@ -3,6 +3,9 @@
 *.class
 test-output/
 *.sublime-project
+/Main coding Mistakes.md
+
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -192,4 +195,4 @@ local.properties
 # *.sublime-project
 
 # sftp configuration file
-sftp-config.json
+sftp-config.jsonMain coding Mistakes.md
