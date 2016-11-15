@@ -6,21 +6,19 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-
 @Test
 public class HashMapTest {
 
-	private static String[] random_values = new String[100];
+	private static String[] RANDOM_VALUES = new String[100];
 
 	@BeforeClass
 	private static void fillRandomValues() {
 
-		for (int i = 0; i < random_values.length; i++) {
-			random_values[i] = RandomStringUtils.random(10);
+		for (int i = 0; i < RANDOM_VALUES.length; i++) {
+			RANDOM_VALUES[i] = RandomStringUtils.random(10);
 		}
 	}
 
-	
 	@Test
 	public void set() {
 
@@ -73,7 +71,6 @@ public class HashMapTest {
 		get_n(1000000);
 	}
 
-	
 	private void get_n(int n) {
 
 		HashMap hashMap = new HashMap();
@@ -81,7 +78,7 @@ public class HashMapTest {
 
 		for (int i = 0; i < n; i++) {
 
-			String key = random_values[RandomUtils.nextInt(0, 100)];
+			String key = RANDOM_VALUES[RandomUtils.nextInt(0, 100)];
 			String value = key + "_value";
 
 			hashMap.set(key, value);

@@ -1,19 +1,41 @@
-package com.thiagoh.pie.c4;
+package com.thiagoh.data_structures;
 
 public class LinkedList {
 
 	private int size;
-	private Node first;
+	private Node head;
+
+	public Node head() {
+		return head;
+	}
+
+	public Object get(int index) {
+
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		Node cur = head;
+
+		for (int i = 0; i < index && cur != null; i++, cur = cur.next) {
+			;
+		}
+
+		if (cur == null) {
+			return null;
+		}
+		return cur.value;
+	}
 
 	public void add(Object value) {
 
-		if (first == null) {
-			first = new Node(value);
+		if (head == null) {
+			head = new Node(value);
 			++size;
 			return;
 		}
 
-		Node node = first;
+		Node node = head;
 
 		while (node.next != null) {
 			node = node.next;
@@ -29,13 +51,13 @@ public class LinkedList {
 			return false;
 		}
 
-		if (value.equals(first.value)) {
-			first = first.next;
+		if (value.equals(head.value)) {
+			head = head.next;
 			--size;
 			return true;
 		}
 
-		Node node = first;
+		Node node = head;
 
 		while (node.next != null) {
 			if (value.equals(node.next.value)) {
@@ -54,7 +76,7 @@ public class LinkedList {
 			return false;
 		}
 
-		Node node = first;
+		Node node = head;
 
 		while (node != null) {
 			if (value.equals(node.value)) {
@@ -73,10 +95,10 @@ public class LinkedList {
 		return size == 0;
 	}
 
-	private class Node {
+	public static class Node {
 
-		private Object value;
-		private Node next;
+		public Object value;
+		public Node next;
 
 		public Node(Object value) {
 			this.value = value;

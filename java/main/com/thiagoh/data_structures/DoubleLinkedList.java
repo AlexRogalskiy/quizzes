@@ -1,29 +1,47 @@
-package com.thiagoh.pie.c4;
+package com.thiagoh.data_structures;
 
 import java.util.Iterator;
 
 public class DoubleLinkedList {
 
 	private int size;
-	private Node first;
+	private Node head;
+	
+	public Object get(int index) {
+
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		Node cur = head;
+
+		for (int i = 0; i < index && cur != null; i++, cur = cur.next) {
+			;
+		}
+
+		if (cur == null) {
+			return null;
+		}
+		return cur.value;
+	}
 
 	public void add(Object value) {
 
-		if (first == null) {
+		if (head == null) {
 			Node newNode = new Node(value);
 			newNode.prev = newNode;
 			newNode.next = newNode;
-			first = newNode;
+			head = newNode;
 			++size;
 			return;
 		}
 
 		Node newNode = new Node(value);
-		newNode.prev = first.prev;
-		newNode.next = first;
+		newNode.prev = head.prev;
+		newNode.next = head;
 
-		first.prev.next = newNode;
-		first.prev = newNode;
+		head.prev.next = newNode;
+		head.prev = newNode;
 
 		++size;
 	}
@@ -34,7 +52,7 @@ public class DoubleLinkedList {
 			return false;
 		}
 
-		Node node = first;
+		Node node = head;
 
 		do {
 
@@ -47,7 +65,7 @@ public class DoubleLinkedList {
 			}
 
 			node = node.next;
-		} while (node != first);
+		} while (node != head);
 
 		return false;
 	}
@@ -58,7 +76,7 @@ public class DoubleLinkedList {
 			return false;
 		}
 
-		Node node = first;
+		Node node = head;
 
 		do {
 
@@ -67,7 +85,7 @@ public class DoubleLinkedList {
 			}
 			node = node.next;
 
-		} while (node != first);
+		} while (node != head);
 
 		return false;
 	}
@@ -85,7 +103,7 @@ public class DoubleLinkedList {
 
 		@Override
 		public boolean hasNext() {
-			return (last == null && first != null) || last != first;
+			return (last == null && head != null) || last != head;
 		}
 
 		@Override
@@ -94,8 +112,8 @@ public class DoubleLinkedList {
 			Object v = null;
 
 			if (last == null) {
-				v = first.value;
-				last = first;
+				v = head.value;
+				last = head;
 			} else {
 				v = last.value;
 			}
