@@ -1,6 +1,6 @@
 package com.thiagoh.cci.c1;
 
-public class Q1_7 {
+public class Q1_8 {
 
 	public static void zero(int[][] a, int M, int N) {
 		if (a == null || a.length <= 0 || M <= 0 || N <= 0) {
@@ -17,12 +17,12 @@ public class Q1_7 {
 			}
 		}
 		for (int i = 0; i < cols.length; i++) {
-			if(cols[i])
-			setColToZero(a, i);
+			if (cols[i])
+				setColToZero(a, i);
 		}
 		for (int i = 0; i < rows.length; i++) {
-			if(rows[i])
-			setRowToZero(a, i);
+			if (rows[i])
+				setRowToZero(a, i);
 		}
 	}
 

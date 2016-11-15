@@ -5,16 +5,15 @@ import java.util.Arrays;
 import org.testng.annotations.Test;
 
 @Test
-public class Q1_7Test {
+public class Q1_8Test {
 
 	@Test
 	public void testRemoveDuplicates() {
 
-		int[][] arr = { { 1, 1, 1, 1, 1, 1 }, { 1, 1, 0, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1 },
-				{ 1, 1, 1, 1, 0, 1 } };
+		int[][] arr = { { 1, 1, 1, 1, 1, 1 }, { 1, 1, 0, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 0, 1 } };
 
 		print(arr);
-		Q1_7.zero(arr, 6, 5);
+		Q1_8.zero(arr, 6, 5);
 		print(arr);
 	}
 
