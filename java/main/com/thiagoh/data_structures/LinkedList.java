@@ -27,22 +27,25 @@ public class LinkedList {
 		return cur.value;
 	}
 
-	public void add(Object value) {
+	public LinkedList add(Object value) {
 
 		if (head == null) {
 			head = new Node(value);
 			++size;
-			return;
+
+		} else {
+
+			Node node = head;
+
+			while (node.next != null) {
+				node = node.next;
+			}
+
+			node.next = new Node(value);
+			++size;
 		}
-
-		Node node = head;
-
-		while (node.next != null) {
-			node = node.next;
-		}
-
-		node.next = new Node(value);
-		++size;
+		
+		return this;
 	}
 
 	public boolean remove(Object value) {
