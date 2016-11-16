@@ -9,7 +9,7 @@ import com.thiagoh.data_structures.LinkedList;
 public class Q2_2Test {
 
 	@Test
-	public void remove_duplicates() {
+	public void findKthLast() {
 
 		Assert.assertNull(Q2_2.findKthLast(null, 0));
 		Assert.assertNull(Q2_2.findKthLast(new LinkedList(), 0));
