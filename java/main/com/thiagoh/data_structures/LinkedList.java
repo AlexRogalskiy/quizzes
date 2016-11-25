@@ -27,6 +27,24 @@ public class LinkedList {
 		return cur.value;
 	}
 
+	public Node getNode(int index) {
+
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		Node cur = head;
+
+		for (int i = 0; i < index && cur != null; i++, cur = cur.next) {
+			;
+		}
+
+		if (cur == null) {
+			return null;
+		}
+		return cur;
+	}
+
 	public LinkedList add(Object value) {
 
 		if (head == null) {
@@ -44,7 +62,7 @@ public class LinkedList {
 			node.next = new Node(value);
 			++size;
 		}
-		
+
 		return this;
 	}
 
@@ -105,6 +123,24 @@ public class LinkedList {
 
 		public Node(Object value) {
 			this.value = value;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((value == null) ? 0 : value.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return this == obj;
+		}
+
+		@Override
+		public String toString() {
+			return "Node [value=" + value + "]";
 		}
 	}
 }
