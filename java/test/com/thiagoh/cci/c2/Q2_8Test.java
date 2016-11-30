@@ -96,7 +96,7 @@ public class Q2_8Test {
 			Node last = ll1.getNode(ll1.size() - 1);
 			last.next = D;
 
-//			Assert.assertEquals(Q2_8.findLoopWithPointers(ll1), D);
+			Assert.assertEquals(Q2_8.findLoopWithPointers(ll1), D);
 		}
 		
 		{
@@ -105,7 +105,7 @@ public class Q2_8Test {
 			Node last = ll1.getNode(ll1.size() - 1);
 			last.next = O;
 			
-//			Assert.assertEquals(Q2_8.findLoopWithPointers(ll1), O);
+			Assert.assertEquals(Q2_8.findLoopWithPointers(ll1), O);
 		}
 		
 		{
