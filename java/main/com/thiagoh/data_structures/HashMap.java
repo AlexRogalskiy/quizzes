@@ -22,6 +22,23 @@ public class HashMap {
 		return length;
 	}
 
+	public List keys() {
+
+		List keys = new List(size());
+
+		for (int i = 0; i < table.length; i++) {
+			List list = table[i];
+			if (list != null) {
+				for (int j = 0; j < list.size(); j++) {
+					TableData tableData = (TableData) list.get(j);
+					keys.add(tableData.key);
+				}
+			}
+		}
+
+		return keys;
+	}
+
 	public void set(Object key, Object value) {
 		if (key == null) {
 			throw new IllegalArgumentException();
@@ -60,11 +77,11 @@ public class HashMap {
 	}
 
 	private void increaseTableCapacity() {
-		
+
 		int newTableSize = tableSize * 10;
-		
+
 		System.out.println("Increased capacity to " + newTableSize);
-		
+
 		List[] newTable = new List[newTableSize];
 		for (List list : table) {
 			for (int i = 0; i < list.size(); i++) {
