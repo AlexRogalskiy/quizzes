@@ -4,9 +4,14 @@ public class LinkedList {
 
 	private int size;
 	private Node head;
+	private Node last;
 
 	public Node head() {
 		return head;
+	}
+	
+	public Node last() {
+		return last;
 	}
 
 	public Object get(int index) {
@@ -49,6 +54,7 @@ public class LinkedList {
 
 		if (head == null) {
 			head = new Node(value);
+			last = head;
 			++size;
 
 		} else {
@@ -60,6 +66,7 @@ public class LinkedList {
 			}
 
 			node.next = new Node(value);
+			last = node.next;
 			++size;
 		}
 
@@ -73,7 +80,11 @@ public class LinkedList {
 		}
 
 		if (value.equals(head.value)) {
+			Node oldHead = head;
 			head = head.next;
+			if (last == oldHead) {
+				last = head;
+			}
 			--size;
 			return true;
 		}
@@ -82,7 +93,11 @@ public class LinkedList {
 
 		while (node.next != null) {
 			if (value.equals(node.next.value)) {
+				Node oldNode = node.next;
 				node.next = node.next.next;
+				if (last == oldNode) {
+					last = node;
+				}
 				--size;
 				return true;
 			}

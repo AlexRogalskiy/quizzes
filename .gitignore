@@ -4,7 +4,7 @@
 test-output/
 *.sublime-project
 /Main coding Mistakes.md
-
+/workspace
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
