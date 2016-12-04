@@ -37,7 +37,7 @@ public class Queue {
 				rear = null;
 			}
 			--size;
-			return retNode;
+			return retNode.value;
 		}
 	}
 

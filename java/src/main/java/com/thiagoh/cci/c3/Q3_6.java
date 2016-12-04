@@ -1,7 +1,5 @@
 package com.thiagoh.cci.c3;
 
-import java.util.Date;
-
 import com.thiagoh.data_structures.Queue;
 
 public class Q3_6 {

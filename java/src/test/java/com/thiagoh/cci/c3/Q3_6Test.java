@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import com.thiagoh.cci.c3.Q3_6.Animal;
 import com.thiagoh.cci.c3.Q3_6.Shelter;
-import com.thiagoh.data_structures.Queue;
 
 @Test
 public class Q3_6Test {
