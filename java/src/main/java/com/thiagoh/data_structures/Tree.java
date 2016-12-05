@@ -17,6 +17,16 @@ public class Tree {
 		return length;
 	}
 
+	public void print() {
+		if (root != null) {
+			root.print();
+		}
+	}
+
+	public int height() {
+		return root.height();
+	}
+
 	@Override
 	public String toString() {
 		return String.valueOf(root);
@@ -36,7 +46,7 @@ public class Tree {
 			length--;
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -47,6 +57,36 @@ public class Tree {
 
 		public Node(Object value) {
 			this.value = value;
+		}
+
+		public void print() {
+
+			System.out.println(value);
+			if (left != null) {
+				left.print();
+			}
+			if (right != null) {
+				right.print();
+			}
+		}
+
+		public int height() {
+
+			int height = 0;
+			int leftHeight = 0;
+			int rightHeight = 0;
+
+			if (left != null) {
+				leftHeight = left.height();
+				height = 1;
+			}
+
+			if (right != null) {
+				rightHeight = right.height();
+				height = 1;
+			}
+
+			return height + Math.max(leftHeight, rightHeight);
 		}
 
 		@Override
