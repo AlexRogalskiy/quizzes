@@ -1,0 +1,41 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf600
+{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;}
+{\*\expandedcolortbl;\csgray\c100000;\cssrgb\c0\c0\c0;\cssrgb\c100000\c100000\c100000;}
+\margl1440\margr1440\vieww10700\viewh18280\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs36 \cf0 \
+\
+\pard\pardeftab720\sl320\partightenfactor0
+\cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 You are given an array of n integers and a target sum T. The goal is to determine whether or not there are two numbers x,y in A with x+y=T.\
+\
+Example : Suppose we have an int array = \{5, 3, 7, 0, 1, 4, 2\} and T = 5. The unique pairs that sum up to 5 are (5, 0) (3, 2) and (1, 4).\cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "http://k2code.blogspot.ca/2012/01/given-integer-array-and-number-x-find.html"}}{\fldrslt \cf0 http://k2code.blogspot.ca/2012/01/given-integer-array-and-number-x-find.html}}\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 hash(a) = a\
+\
+a + b = k\
+k - a = b\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 k - b = a\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+hash(k - a) = ?\
+\
+If hash(k - a) exists in the hash what is means?\
+\
+Means that there is some b inside the array that k - a = b, because if hash(k-a) is null it means that there is no position in the hash that k-a (which is b) exists\
+\
+[1,2,4,5,-9,12,-15,18]\
+\
+Lets say k = 3\
+k - 1 = 2\
+so we need to find b which value is 2. For that we just need to look up in the hash if the value 2 exists => hash(2)\
+\
+3 - 5 = -2x}

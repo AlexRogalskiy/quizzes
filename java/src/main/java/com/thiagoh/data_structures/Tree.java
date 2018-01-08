@@ -5,7 +5,7 @@ import java.util.Comparator;
 public class Tree {
 
 	private int length;
-	private Node root;
+	public Node root;
 	private Comparator comparator;
 
 	public Tree(Comparator c) {
@@ -32,13 +32,19 @@ public class Tree {
 		return String.valueOf(root);
 	}
 
-	public void add(Object v) {
+	public Node add(Object v) {
+
+		Node node = null;
+
 		if (root == null) {
-			root = new Node(v);
+			node = new Node(v);
+			root = node;
 		} else {
-			root.add(v);
+			node = root.add(v);
 		}
 		length++;
+
+		return node;
 	}
 
 	public boolean remove(Object v) {
@@ -129,28 +135,33 @@ public class Tree {
 			return new Node[] { parent, node };
 		}
 
-		public void add(Object v) {
-			Node node = this;
-			int comparation = comparator.compare(node.value, v);
+		public Node add(Object v) {
+			
+			Node node = null;
+			int comparation = comparator.compare(value, v);
 
 			if (comparation >= 0) {
 				// left
 
-				if (node.left == null) {
-					node.left = new Node(v);
+				if (left == null) {
+					left = new Node(v);
+					node = left;
 				} else {
-					node.left.add(v);
+					node = left.add(v);
 				}
 
 			} else {
 				// right
 
-				if (node.right == null) {
-					node.right = new Node(v);
+				if (right == null) {
+					right = new Node(v);
+					node = right;
 				} else {
-					node.right.add(v);
+					node = right.add(v);
 				}
 			}
+			
+			return node;
 		}
 
 		private Node[] find(Object v) {

@@ -16,6 +16,14 @@ public class List {
 		return length;
 	}
 
+	public List clone() {
+		List list = new List(length);
+		for (int i = 0; i < values.length; i++) {
+			list.add(values[i]);
+		}
+		return list;
+	}
+
 	public Object get(int index) {
 
 		if (index >= length || index < 0) {
@@ -25,10 +33,10 @@ public class List {
 		return values[index];
 	}
 
-	public void add(Object value) {
+	public List add(Object value) {
 
 		if (value == null) {
-			return;
+			return this;
 		}
 
 		if (length + 1 >= capacity) {
@@ -41,14 +49,18 @@ public class List {
 
 		values[length] = value;
 		length++;
+
+		return this;
 	}
 
-	public void set(int index, Object value) {
+	public List set(int index, Object value) {
 
 		if (index < 0 || index >= length) {
 			throw new ArrayIndexOutOfBoundsException();
 		}
 
 		values[index] = value;
+
+		return this;
 	}
 }

@@ -43,4 +43,5 @@ public class Q4_2Test {
 			Assert.assertEquals(tree.height(), 4);
 		}
 	}
+
 }
