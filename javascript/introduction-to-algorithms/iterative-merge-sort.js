@@ -63,11 +63,6 @@ const iterativeMergeSort = (A, p, q) => {
   for (let j = 0; j < S; j += 2) {
     OutputA = swap(OutputA, j, j + 1);
   }
-
-  if (S === 2) {
-    return OutputA;
-  }
-
   let n = 2;
   let L = 0;
   let R = n + L;
